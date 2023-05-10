@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+</head>
+<body style="background: url({% static 'images/light-blue-background.jpg'%})
+    no-repeat center center fixed; background-size: cover;
+    text-align: center;
+    margin-top: 250px;">
+<div class="container">
+    <div class="row text-center">
+        <h1 class="mx-auto" style="font-family: Arial, Helvetica, sans-serif;opacity: 0.8 ">
+            ZICB-INFRATEL INTEGRATION
+        </h1>
+<div class="col-md-12 pt-5">
+    <div class="row text-white ">
+        
+        </div>
+        <!--<div class="col-md-3">
+            <a href="{% url 'dashboard:payables_homepage'%}" ><button style="font-family: Arial, Helvetica, sans-serif;" class="btn btn-primary" >Payables Integration Transactions</button></a>
+        </div>-->
+        <div class="col">
+            <a href="{% url 'dashboard:receivables_homepage'%}"><button style="font-family: Arial, Helvetica, sans-serif;" class="btn btn-primary btn-lg">Receivables Integration Transactions</button></a>
+    
+        </div>
+        </div>
+</div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.7.0" integrity="sha384-EzBXYPt0/T6gxNp0nuPtLkmRpmDBbjg6WmCUZRLXBBwYYmwAUxzlSGej0ARHX0Bo" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <style>
+    a:link {text-decoration: none; color:black;}
+    a:visited {text-decoration: none; color:black;}
+    a:hover {text-decoration: none; color:black;}
+    a:active {text-decoration: none; color:black;}
+    .btn{
+    margin-right: 5px;
+}
+body{
+    background: lightblue; background-size: cover;
+    text-align: center;
+}
+.search{
+    width:20%;
+    margin-left:10px;
+    border-radius: 15px;
+  }
+  </style>
+</head>
+{% load static %}
+<body >
+{% block content %}
+<div class="card m-5">
+<div class="container pt-5" >
+        <div class="row ">
+        <div class="col">
+        <h1 style="opacity:0.8;">Unsuccessful Transactions</h1> </div>
+        <div class="col" >
+        <div class="dropdown">
+          <a class="btn btn-outline-primary btn-md " href="{% url 'dashboard:u_excel' %}">Export All <i class="bi bi-filetype-xls"></i></a>
+            <a class="btn btn-outline-primary dropdown-toggle " href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" >
+                Search <i class="bi bi-search"></i>
+            </a>
+            <div class="dropdown-menu">
+                <button id="by_date_btn" class="dropdown-item" hx-get="{% url 'dashboard:by_date_form' %}" hx-swap="innerHTML" hx-target="#by_date">Search By Date</button>
+                <button id="by_field_btn" class="dropdown-item" hx-get="{% url 'dashboard:by_field_form' %}" hx-swap="innerHTML" hx-target="#by_field">Search By Field</button>
+            </div>
+          </div>
+          </div>
+        </div>  
+          
+    <form action="{% url 'dashboard:u_t_results' %}" method="get" id="by_date" class="pb-4" ></form>
+    <form method="get" action="{% url 'dashboard:u_t_results_field' %}" id="by_field" class="pb-4" ></form>
+    
+ <table class="table table-responsive border-rounded table-hover " >
+                                {% if u_t %}
+                                <thead class="thead">
+                                    <tr>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">Message</th>
+                                        <th scope="col">Customer Number</th>
+                                        <th scope="col">Amount</th>
+                                        <th scope="col">Transaction Remarks</th>
+                                        <th scope="col">Transaction Id</th>
+                                        <th scope="col">Transaction Date</th>
+                                        <th scope="col">Entry Date Time</th>
+
+                                    </tr>
+                            </thead>
+                            <tbody>
+                            
+                            {% for items in  u_t %}
+                            <tr scope="row">
+                                <td> {{items.id}}</td>
+                                <td>{{items.processed}}</td>
+                                <td>{{items.customer_no}}</td>
+                                <td>{{items.amount}}</td>
+                                <td>{{items.name}}</td>
+                                <td>{{items.transid}}</td>
+                                <td>{{items.transdate}}</td>
+                                 <td>{{items.entrydate}}</td>
+
+                                {% endfor %}
+                            </tr>
+                    
+                    </tbody>
+                                {% elif p_u_t %}
+                                <thead class="thead">
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Destination Account</th>
+                                    <th scope="col">Service</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Remarks</th>
+                                    <th scope="col">Reference Number</th>
+                                    <th scope="col">Transaction Type</th>
+                                    <th scope="col">Entry Date Time</th>
+
+                                </tr>
+                        </thead>
+                        <tbody>
+                                {% for items in p_u_t %}
+                                 <td>{{items.id}}</td>
+                                <td>{{items.destacc}}</td>
+                                <td>{{items.service}}</td>
+                                <td>{{items.amount}}</td>
+                                <td>{{items.remarks}}</td>
+                                <td>{{items.referenceno}}</td>
+                                <td>{{items.transactiontype}}</td>
+                                <td>{{items.timestamp}}</td>
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                                {% endif%}
+
+                            
+                        </table>
+    {% endblock %}
+    <div class="row mt-3 mb-5">
+    {% block pagination %}
+        Page Number: 
+    {% if u_t %}
+    {% for page_number in u_t.paginator.page_range %}
+    <button class="btn btn-primary btn-sm"> <a href="{% url 'dashboard:u_t' page_number %}" class="{% if page_number == page_obj.number %}current{% endif %} text-black">
+            {{page_number}} {% endfor %}
+        </a></button>
+    {% elif p_u_t %}
+    {% for page_number in p_u_t.paginator.page_range %}
+    <button class="btn btn-primary btn-sm"><a href="{% url 'dashboard:p_u_t' page_number %}" class="{% if page_number == page_obj.number %}current{% endif %} text-black">
+           {{page_number}}
+        </a></button>
+    {% endfor %}
+    {% endif %}
+    {% endblock %}
+    </div>
+    <div class="row mb-5">
+        <div class="col">
+ {% if u_t %}
+ <a class="btn btn-outline-primary btn-md " href="{% url 'dashboard:u_excel' %}">Export All <i class="bi bi-filetype-xls"></i></a>
+           
+{% elif p_u_t %}
+<a class="btn btn-outline-primary" href="{% url 'dashboard:p_u_excel' %}" >Export All <i class="bi bi-filetype-xls"></i> </a>
+{% endif %}
+<a class="btn btn-outline-primary" href="{% url 'dashboard:home' %}" > Return Home <i class="bi bi-house"></i></a>
+   </div>     
+</div>
+    
+</div>
+
+</div>
+<script>
+    document.body.addEventListener('htmx:configRequest', (event) => {
+        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}'; 
+    })
+    $(document).ready(function () {
+
+        $('#by_date_btn').click(function(){
+        $('#by_field_btn').attr("disabled", true);
+    });
+    $('#by_field_btn').click(function(){
+        $('#by_date_btn').attr("disabled", true);
+    });
+    });
+    </script>
+  
+</body>
+</html>
