@@ -1,0 +1,37 @@
+.form-content {
+            border-color: #121271;
+        }
+
+        a:link {
+            text-decoration: none;
+            color: black;
+        }
+
+        a:visited {
+            text-decoration: none;
+            color: black;
+        }
+
+        a:hover {
+            text-decoration: none;
+            color: black;
+        }
+
+        a:active {
+            text-decoration: none;
+            color: black;
+        }
+
+        .btn {
+            margin-right: 5px;
+        }
+
+        body {
+            text-align: center;
+        }
+
+        .search {
+            width: 20%;
+            margin-left: 10px;
+            border-radius: 15px;
+        }

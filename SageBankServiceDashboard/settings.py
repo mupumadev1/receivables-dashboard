@@ -86,8 +86,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'sageservice',
-        'USER': 'saservice',
-        'PASSWORD': 'mJ@PcJ!pNVs2*AW',
+        'USER': 'sa',
+        'PASSWORD': 'Admin123',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
