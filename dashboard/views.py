@@ -59,10 +59,9 @@ def recievables_successfull_trans(request):
 def search_results(request):
     search_params = request.GET.get('search_params')
     field_option = request.GET.get('filter_options')
-    print(field_option)
     field_mapping = {
         'customer_no': 'customer_no',
-        'amount': 'amount',
+        'amount': 'amount__icontains',
         'transaction_id': 'transid',
         'transaction_date':'transdate',
         'entry_date': 'entrydate'
